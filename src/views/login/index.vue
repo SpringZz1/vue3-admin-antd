@@ -20,7 +20,7 @@
           </a-input>
         </div>
         <div>
-          <a-input
+          <a-input-password
             v-model="loginInfo.password"
             placeholder="123456"
             :maxlength="20"
@@ -28,7 +28,7 @@
             type="password"
             class="input-box"
           >
-          </a-input>
+          </a-input-password>
         </div>
         <div>
           <a-checkbox>记住我</a-checkbox>
