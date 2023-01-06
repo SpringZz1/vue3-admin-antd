@@ -8,7 +8,7 @@ import {
   MenuFoldOutlined,
   ExportOutlined,
   GithubOutlined,
-  CompressOutlined,
+  FullscreenOutlined,
 } from "@ant-design/icons-vue";
 import { ref } from "vue";
 
@@ -64,8 +64,10 @@ const toggleCollapsed = () => {
           <a-breadcrumb-item><a href="">Application List</a></a-breadcrumb-item>
           <a-breadcrumb-item>An Application</a-breadcrumb-item>
         </a-breadcrumb>
-        <github-outlined class="img" />
-        <compress-outlined class="img" />
+        <!-- eslint-disable-next-line prettier/prettier -->
+        <github-outlined style="fontSize: 18px" class="img" />
+        <!-- eslint-disable-next-line prettier/prettier -->
+        <FullscreenOutlined style="fontSize: 18px" class="img" />
         <img
           src="../assets/images/avatar.png"
           alt="avatar"
