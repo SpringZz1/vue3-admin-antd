@@ -11,7 +11,7 @@
         </h5>
         <div>
           <a-input
-            v-model="loginInfo.name"
+            v-model:value="loginInfo.name"
             autofocus
             placeholder="admin"
             :maxlength="20"
@@ -21,7 +21,7 @@
         </div>
         <div>
           <a-input-password
-            v-model="loginInfo.password"
+            v-model:value="loginInfo.password"
             placeholder="123456"
             :maxlength="20"
             show-password-on="mousedown"
@@ -60,6 +60,7 @@ const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
   router.push("/workbench");
 };
+
 </script>
 
 <style lang="scss" scoped>
