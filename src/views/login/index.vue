@@ -57,22 +57,16 @@ const loginInfo = ref({
   password: "",
 });
 
-
-const error = () => {
-  message.error("This is an error message");
-};
-
 const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
   if (
     loginInfo.value.name === "admin" &&
     loginInfo.value.password === "123456"
   ) {
+    message.success("登录成功");
     router.push("/workbench");
   } else {
-    console.log("error");
-    message.error("This is an error message");
-    error;
+    message.error("账户或者密码错误");
   }
 };
 </script>
