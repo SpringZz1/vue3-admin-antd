@@ -47,6 +47,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { message } from "ant-design-vue";
 import AppFooter from "@/components/common/AppFooter.vue";
 
 const router = useRouter();
@@ -56,11 +57,24 @@ const loginInfo = ref({
   password: "",
 });
 
-const loginHandle = () => {
-  // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
-  router.push("/workbench");
+
+const error = () => {
+  message.error("This is an error message");
 };
 
+const loginHandle = () => {
+  // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
+  if (
+    loginInfo.value.name === "admin" &&
+    loginInfo.value.password === "123456"
+  ) {
+    router.push("/workbench");
+  } else {
+    console.log("error");
+    message.error("This is an error message");
+    error;
+  }
+};
 </script>
 
 <style lang="scss" scoped>
