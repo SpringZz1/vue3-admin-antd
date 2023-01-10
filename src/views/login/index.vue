@@ -48,6 +48,8 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
+import localCache from "@/utils/storage";
+import loginCheck from "@/utils/login";
 import AppFooter from "@/components/common/AppFooter.vue";
 
 const router = useRouter();
@@ -60,25 +62,27 @@ const loginInfo = ref({
 
 const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
-  if (
-    loginInfo.value.username === "admin" &&
-    loginInfo.value.password === "123456"
-  ) {
-    // 如果记住我, 保存信息到localstore中
-    // if(loginInfo.value.remember){
-
-    // }
-    message.success("登录成功");
-    router.push("/workbench");
-  } else if (!loginInfo.value.username && !loginInfo.value.password) {
+  // 解构信息
+  const { username, password, checked } = loginInfo.value;
+  // 如果没输入身份信息
+  if (!loginCheck.check(username, password)) {
     message.error("请输入账号和密码!");
-    return;
   } else {
-    message.error("账户或者密码错误");
-    return;
+    // 如果"记住我"按下, 保存信息到本地
+    if (checked) {
+      localCache.set("loginInfo", loginInfo);
+    } else {
+      localCache.remove("loginInfo");
+    }
+    // 如果身份信息输入正确
+    if (username === "admin" && password === "123456") {
+      message.success("登录成功");
+      router.push("/workbench");
+    } else {
+      message.error("账号或密码错误");
+    }
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
