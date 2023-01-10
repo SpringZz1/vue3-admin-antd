@@ -10,33 +10,18 @@
           <span>Vue Naive Admin</span>
         </h5>
         <div>
-          <a-input
-            v-model:value="loginInfo.username"
-            autofocus
-            placeholder="admin"
-            :maxlength="20"
-            class="input-box"
-          >
+          <a-input v-model:value="loginInfo.username" autofocus placeholder="admin" :maxlength="20" class="input-box">
           </a-input>
         </div>
         <div>
-          <a-input-password
-            v-model:value="loginInfo.password"
-            placeholder="123456"
-            :maxlength="20"
-            show-password-on="mousedown"
-            type="password"
-            class="input-box"
-          >
+          <a-input-password v-model:value="loginInfo.password" placeholder="123456" :maxlength="20" show-password-on="mousedown" type="password" class="input-box">
           </a-input-password>
         </div>
         <div>
           <a-checkbox v-model:checked="loginInfo.remember">记住我</a-checkbox>
         </div>
         <div>
-          <a-button type="primary" class="button" @click="loginHandle"
-            >登录</a-button
-          >
+          <a-button type="primary" class="button" @click="loginHandle">登录</a-button>
         </div>
       </div>
     </div>
@@ -60,16 +45,31 @@ const loginInfo = ref({
   remember: false,
 });
 
+const getLoginInfo = () => {
+  loginInfo.value = localCache.get("loginInfo");
+  if (loginInfo.value === null)
+    loginInfo.value = ref({
+      username: "",
+      password: "",
+      remember: false,
+    });
+};
+
+// 生命周期初始化
+getLoginInfo();
+
+// const loginInfo = ref(getLoginInfo());
+
 const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
   // 解构信息
-  const { username, password, checked } = loginInfo.value;
+  const { username, password, remember } = loginInfo.value;
   // 如果没输入身份信息
   if (!loginCheck.check(username, password)) {
     message.error("请输入账号和密码!");
   } else {
     // 如果"记住我"按下, 保存信息到本地
-    if (checked) {
+    if (remember) {
       localCache.set("loginInfo", loginInfo);
     } else {
       localCache.remove("loginInfo");
