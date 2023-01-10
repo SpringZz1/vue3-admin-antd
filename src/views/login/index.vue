@@ -11,7 +11,7 @@
         </h5>
         <div>
           <a-input
-            v-model:value="loginInfo.name"
+            v-model:value="loginInfo.username"
             autofocus
             placeholder="admin"
             :maxlength="20"
@@ -31,7 +31,7 @@
           </a-input-password>
         </div>
         <div>
-          <a-checkbox>记住我</a-checkbox>
+          <a-checkbox v-model:checked="loginInfo.remember">记住我</a-checkbox>
         </div>
         <div>
           <a-button type="primary" class="button" @click="loginHandle"
@@ -53,22 +53,32 @@ import AppFooter from "@/components/common/AppFooter.vue";
 const router = useRouter();
 
 const loginInfo = ref({
-  name: "",
+  username: "",
   password: "",
+  remember: false,
 });
 
 const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
   if (
-    loginInfo.value.name === "admin" &&
+    loginInfo.value.username === "admin" &&
     loginInfo.value.password === "123456"
   ) {
+    // 如果记住我, 保存信息到localstore中
+    // if(loginInfo.value.remember){
+
+    // }
     message.success("登录成功");
     router.push("/workbench");
+  } else if (!loginInfo.value.username && !loginInfo.value.password) {
+    message.error("请输入账号和密码!");
+    return;
   } else {
     message.error("账户或者密码错误");
+    return;
   }
 };
+
 </script>
 
 <style lang="scss" scoped>
