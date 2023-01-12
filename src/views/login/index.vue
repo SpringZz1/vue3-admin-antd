@@ -34,7 +34,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import localCache from "@/utils/storage";
-import loginCheck from "@/utils/login";
+import loginCheck from "@/utils/loginCheck";
 import AppFooter from "@/components/common/AppFooter.vue";
 
 const router = useRouter();
