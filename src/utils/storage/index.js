@@ -34,5 +34,5 @@ class localCache {
     window.localStorage.clear();
   }
 }
-// 设置过期时间为5s, 测试使用
-export default new localCache(5000);
+// 设置过期时间为10s, 测试使用
+export default new localCache(10000);
