@@ -16,7 +16,6 @@ class localCache {
       // 如果当前时间减去生成时间超过设定保存时间则清除localstore
       if (now - obj.startTime > this._expires) {
         console.log("localstore保存超时已被消除");
-        // console.log(window.localStorage.getItem("key"));
         window.localStorage.removeItem("key");
         return obj;
       } else {

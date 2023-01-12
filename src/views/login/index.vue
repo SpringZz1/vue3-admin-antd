@@ -10,18 +10,33 @@
           <span>Vue Naive Admin</span>
         </h5>
         <div>
-          <a-input v-model:value="loginInfo.username" autofocus placeholder="admin" :maxlength="20" class="input-box">
+          <a-input
+            v-model:value="loginInfo.username"
+            autofocus
+            placeholder="admin"
+            :maxlength="20"
+            class="input-box"
+          >
           </a-input>
         </div>
         <div>
-          <a-input-password v-model:value="loginInfo.password" placeholder="123456" :maxlength="20" show-password-on="mousedown" type="password" class="input-box">
+          <a-input-password
+            v-model:value="loginInfo.password"
+            placeholder="123456"
+            :maxlength="20"
+            show-password-on="mousedown"
+            type="password"
+            class="input-box"
+          >
           </a-input-password>
         </div>
         <div>
           <a-checkbox v-model:checked="loginInfo.remember">记住我</a-checkbox>
         </div>
         <div>
-          <a-button type="primary" class="button" @click="loginHandle">登录</a-button>
+          <a-button type="primary" class="button" @click="loginHandle"
+            >登录</a-button
+          >
         </div>
       </div>
     </div>
@@ -35,6 +50,8 @@ import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import localCache from "@/utils/storage";
 import loginCheck from "@/utils/loginCheck";
+import Mock from "mockjs";
+import Cookie from "js-cookie";
 import AppFooter from "@/components/common/AppFooter.vue";
 
 const router = useRouter();
@@ -77,6 +94,9 @@ const loginHandle = () => {
     // 如果身份信息输入正确
     if (username === "admin" && password === "123456") {
       message.success("登录成功");
+      // mock模拟token数据并保存在cookie中
+      const token = Mock.Random.guid();
+      Cookie.set("token", token);
       router.push("/workbench");
     } else {
       message.error("账号或密码错误");
