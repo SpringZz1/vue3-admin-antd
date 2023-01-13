@@ -62,18 +62,17 @@ const loginInfo = ref({
   remember: false,
 });
 
-const getLoginInfo = () => {
-  loginInfo.value = localCache.get("loginInfo");
-  if (loginInfo.value === null)
-    loginInfo.value = ref({
-      username: "",
-      password: "",
-      remember: false,
-    });
+const initLoginInfo = () => {
+  const localLoginInfo = localCache.get("loginInfo");
+  if (localLoginInfo) {
+    loginInfo.value.username = localLoginInfo.username || "";
+    loginInfo.value.password = localLoginInfo.password || "";
+    loginInfo.value.remember = localLoginInfo.remember || false;
+  }
 };
 
-// 生命周期初始化
-getLoginInfo();
+// 生命周期时登录信息初始化
+initLoginInfo();
 
 // const loginInfo = ref(getLoginInfo());
 
