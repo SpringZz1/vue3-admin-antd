@@ -1,4 +1,4 @@
-class localCache {
+class LocalCache {
   constructor(expires) {
     // 设置过期时间
     this._expires = expires;
@@ -34,4 +34,4 @@ class localCache {
   }
 }
 // 设置过期时间为10s, 测试使用
-export default new localCache(10000);
+export default new LocalCache(10000);

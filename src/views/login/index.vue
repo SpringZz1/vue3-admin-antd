@@ -48,10 +48,10 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
-import localCache from "@/utils/storage";
-import loginCheck from "@/utils/loginCheck";
+import LocalCache from "@/utils/storage";
+import LoginCheck from "@/utils/loginCheck";
+import CookiesCache from "@/utils/cookies";
 import Mock from "mockjs";
-import Cookie from "js-cookie";
 import AppFooter from "@/components/common/AppFooter.vue";
 
 const router = useRouter();
@@ -63,7 +63,7 @@ const loginInfo = ref({
 });
 
 const initLoginInfo = () => {
-  const localLoginInfo = localCache.get("loginInfo");
+  const localLoginInfo = LocalCache.get("loginInfo");
   if (localLoginInfo) {
     loginInfo.value.username = localLoginInfo.username || "";
     loginInfo.value.password = localLoginInfo.password || "";
@@ -74,28 +74,26 @@ const initLoginInfo = () => {
 // 生命周期时登录信息初始化
 initLoginInfo();
 
-// const loginInfo = ref(getLoginInfo());
-
 const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
   // 解构信息
   const { username, password, remember } = loginInfo.value;
   // 如果没输入身份信息
-  if (!loginCheck.check(username, password)) {
+  if (!LoginCheck.check(username, password)) {
     message.error("请输入账号和密码!");
   } else {
     // 如果"记住我"按下, 保存信息到本地
     if (remember) {
-      localCache.set("loginInfo", loginInfo);
+      LocalCache.set("loginInfo", loginInfo);
     } else {
-      localCache.remove("loginInfo");
+      LocalCache.remove("loginInfo");
     }
     // 如果身份信息输入正确
     if (username === "admin" && password === "123456") {
       message.success("登录成功");
       // mock模拟token数据并保存在cookie中
       const token = Mock.Random.guid();
-      Cookie.set("token", token);
+      CookiesCache.set("token", token);
       router.push("/workbench");
     } else {
       message.error("账号或密码错误");

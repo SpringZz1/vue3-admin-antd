@@ -1,4 +1,4 @@
-class loginCheck {
+class LoginCheck {
   check(username, password) {
     // 如果没有输入username和密码
     if (!username && !password) {
@@ -10,4 +10,4 @@ class loginCheck {
   }
 }
 
-export default new loginCheck();
+export default new LoginCheck();
