@@ -51,6 +51,7 @@ import { message } from "ant-design-vue";
 import LocalCache from "@/utils/storage";
 import LoginCheck from "@/utils/loginCheck";
 import CookiesCache from "@/utils/cookies";
+import axios from "axios";
 import Mock from "mockjs";
 import AppFooter from "@/components/common/AppFooter.vue";
 
@@ -69,6 +70,9 @@ const initLoginInfo = () => {
     loginInfo.value.password = localLoginInfo.password || "";
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
+  axios.get("api/user").then((res) => {
+    console.log(res);
+  });
 };
 
 // 生命周期时登录信息初始化
