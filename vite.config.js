@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [
     vue(),
     viteMockServe({
-      mockPath: "mock",
+      mockPath: "./mock",
       supportTs: false,
       injectCode: `
         import{ setupProdMockServer } from "./mock/_createMockServer";
