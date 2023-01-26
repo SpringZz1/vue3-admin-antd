@@ -1,14 +1,16 @@
 const users = {
   admin: {
     id: 1,
-    name: "SpringZz (admin)",
+    username: "SpringZz (admin)",
     avatar: "./src/assets/images/avatar.png",
+    password: "123456",
     role: ["admin"],
   },
   guest: {
     id: 2,
-    name: "访客 (guest)",
+    username: "访客 (guest)",
     avatar: "./src/assets/images/avatar.png",
+    password: "123456",
     role: ["guest"],
   },
 };
