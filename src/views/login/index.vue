@@ -51,8 +51,7 @@ import { message } from "ant-design-vue";
 import LocalCache from "@/utils/storage";
 import LoginCheck from "@/utils/loginCheck";
 import CookiesCache from "@/utils/cookies";
-// import axios from "axios";
-import request from "@/utils/request";
+import api from "./api";
 import Mock from "mockjs";
 import AppFooter from "@/components/common/AppFooter.vue";
 
@@ -64,6 +63,8 @@ const loginInfo = ref({
   remember: false,
 });
 
+// let userInfo = {};
+
 const initLoginInfo = () => {
   const localLoginInfo = LocalCache.get("loginInfo");
   if (localLoginInfo) {
@@ -71,9 +72,6 @@ const initLoginInfo = () => {
     loginInfo.value.password = localLoginInfo.password || "";
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
-  request.get("/api/user").then((res) => {
-    console.log(res);
-  });
 };
 
 // 生命周期时登录信息初始化
@@ -83,27 +81,31 @@ const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
   // 解构信息
   const { username, password, remember } = loginInfo.value;
-  // 如果没输入身份信息
-  if (!LoginCheck.check(username, password)) {
-    message.error("请输入账号和密码!");
-  } else {
-    // 如果"记住我"按下, 保存信息到本地
-    if (remember) {
-      LocalCache.set("loginInfo", loginInfo);
+  // console.log();
+  api.login({ username, password: password.toString() }).then((res) => {
+    // console.log(res);
+    // 如果没输入身份信息
+    if (!LoginCheck.check(username, password)) {
+      message.error("请输入账号和密码!");
     } else {
-      LocalCache.remove("loginInfo");
+      // 如果身份信息输入正确
+      if (res.data.code === 0) {
+        message.success("登录成功");
+        // mock模拟token数据并保存在cookie中
+        const token = Mock.Random.guid();
+        CookiesCache.set("token", token);
+        // 如果"记住我"按下, 保存信息到本地
+        if (remember) {
+          LocalCache.set("loginInfo", loginInfo);
+        } else {
+          LocalCache.remove("loginInfo");
+        }
+        router.push("/workbench");
+      } else {
+        message.error("账号或密码错误");
+      }
     }
-    // 如果身份信息输入正确
-    if (username === "admin" && password === "123456") {
-      message.success("登录成功");
-      // mock模拟token数据并保存在cookie中
-      const token = Mock.Random.guid();
-      CookiesCache.set("token", token);
-      router.push("/workbench");
-    } else {
-      message.error("账号或密码错误");
-    }
-  }
+  });
 };
 </script>
 
