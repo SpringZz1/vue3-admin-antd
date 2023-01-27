@@ -53,6 +53,7 @@ import LoginCheck from "@/utils/loginCheck";
 import CookiesCache from "@/utils/cookies";
 import api from "./api";
 import Mock from "mockjs";
+import { useUserStore } from "@/stores";
 import AppFooter from "@/components/common/AppFooter.vue";
 
 const router = useRouter();
@@ -63,8 +64,6 @@ const loginInfo = ref({
   remember: false,
 });
 
-// let userInfo = {};
-
 const initLoginInfo = () => {
   const localLoginInfo = LocalCache.get("loginInfo");
   if (localLoginInfo) {
@@ -72,6 +71,9 @@ const initLoginInfo = () => {
     loginInfo.value.password = localLoginInfo.password || "";
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
+  // TODO: 测试pinia, 后续需要删除
+  const userStore = useUserStore();
+  userStore.getUserInfo();
 };
 
 // 生命周期时登录信息初始化
