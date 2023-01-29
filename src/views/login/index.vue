@@ -51,6 +51,7 @@ import { message } from "ant-design-vue";
 import LocalCache from "@/utils/storage";
 import LoginCheck from "@/utils/loginCheck";
 import CookiesCache from "@/utils/cookies";
+import TokenCache from "@/utils/token";
 import api from "./api";
 import Mock from "mockjs";
 import { useUserStore } from "@/stores";
@@ -94,8 +95,9 @@ const loginHandle = () => {
       if (res.data.code === 0) {
         message.success("登录成功");
         // mock模拟token数据并保存在cookie中
-        const token = Mock.Random.guid();
-        CookiesCache.set("token", token);
+        const token = res.data.data;
+        // CookiesCache.set("token", token);
+        TokenCache.set("token", token);
         // 如果"记住我"按下, 保存信息到本地
         if (remember) {
           LocalCache.set("loginInfo", loginInfo);
