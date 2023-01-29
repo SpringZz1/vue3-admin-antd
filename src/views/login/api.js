@@ -10,5 +10,5 @@ import request from "@/utils/request";
 // };
 
 export default {
-  login: (data) => request.post("/api/login", data),
+  login: (data) => request.post("/api/login", data, { noNeedToken: true }),
 };
