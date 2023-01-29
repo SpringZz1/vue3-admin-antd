@@ -1,25 +1,29 @@
+// import TokenCache from "./src/utils/token";
+// import { resolveToken } from "../utils";
 const users = {
   admin: {
     id: 1,
-    username: "SpringZz (admin)",
+    username: "admin",
     avatar: "./src/assets/images/avatar.png",
     password: "123456",
     role: ["admin"],
   },
   guest: {
     id: 2,
-    username: "访客 (guest)",
+    username: "guest",
     avatar: "./src/assets/images/avatar.png",
     password: "123456",
     role: ["guest"],
   },
 };
-
+// const token = window.sessionStorage.getItem("token");
 export default [
   {
     url: "/api/user",
     method: "get",
     response: () => {
+      // const token = window.sessionStorage.getItem("token");
+      // const token = resolveToken();
       return {
         code: 0,
         message: "ok",
