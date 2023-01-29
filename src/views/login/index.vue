@@ -50,10 +50,8 @@ import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import LocalCache from "@/utils/storage";
 import LoginCheck from "@/utils/loginCheck";
-import CookiesCache from "@/utils/cookies";
 import TokenCache from "@/utils/token";
 import api from "./api";
-import Mock from "mockjs";
 import { useUserStore } from "@/stores";
 import AppFooter from "@/components/common/AppFooter.vue";
 
