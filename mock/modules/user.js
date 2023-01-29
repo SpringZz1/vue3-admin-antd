@@ -1,5 +1,5 @@
 // import TokenCache from "./src/utils/token";
-// import { resolveToken } from "../utils";
+import { resolveToken } from "../utils";
 const users = {
   admin: {
     id: 1,
@@ -16,18 +16,17 @@ const users = {
     role: ["guest"],
   },
 };
-// const token = window.sessionStorage.getItem("token");
+
 export default [
   {
     url: "/api/user",
     method: "get",
-    response: () => {
-      // const token = window.sessionStorage.getItem("token");
-      // const token = resolveToken();
+    response: ({ headers }) => {
+      const token = resolveToken(headers.authorization);
       return {
         code: 0,
         message: "ok",
-        data: { ...users },
+        data: { ...(users[token] || users.guest) },
       };
     },
   },
