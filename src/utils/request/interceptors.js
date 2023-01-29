@@ -1,5 +1,6 @@
 import TokenCache from "../token/index";
 
+// request成功
 export function reqResolve(config) {
   // 处理不需要token的请求
   if (config.noNeedToken) {
@@ -7,24 +8,28 @@ export function reqResolve(config) {
   }
 
   const token = TokenCache.get("token");
+  // 如果不存在token, 则需要进行重新登录
   if (!token) {
     return Promise.reject({ code: 401, message: "登录已过期, 请重新登录!" });
   }
   config.headers.Authorization =
-    config.headers.Authorization || "Bearer" + token;
+    config.headers.Authorization || "Bearer " + token;
 
   return config;
 }
 
+// request失败
 export function reqReject(error) {
   return Promise.reject(error);
 }
 
+// response成功
 export function resResolve(config) {
-  console.log("response相应拦截器");
+  // console.log("response相应拦截器");
   return Promise.resolve(config);
 }
 
+// response失败, 对返回的code进行原因判断
 export function resReject(error) {
   let message = "未知错误";
   if (error && error.response) {

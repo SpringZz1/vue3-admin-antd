@@ -9,7 +9,7 @@ class TokenCache {
   // 获取token
   get(key) {
     if (window.sessionStorage.getItem(key)) {
-      console.log("获取Cookie成功");
+      // console.log("获取Cookie成功");
       return window.sessionStorage.getItem(key);
     }
     return false;
