@@ -10,6 +10,7 @@ import {
 import { createFromIconfontCN } from "@ant-design/icons-vue";
 import { ref } from "vue";
 import LocalCache from "@/utils/storage";
+import { useRouter } from "vue-router";
 // import axios from "axios";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/c/font_3873364_0ppxjufpby5.js",
@@ -18,6 +19,7 @@ const collapsed = ref(false);
 // eslint-disable-next-line no-unused-vars
 const selectedKey = ref(["1"]);
 
+const router = useRouter();
 const menu = ref([
   {
     key: 1,
@@ -64,6 +66,11 @@ const initValue = () => {
   }
 };
 
+const menuClick = (path) => {
+  console.log("跳转" + path);
+  router.push(path);
+};
+
 initValue();
 </script>
 
@@ -78,7 +85,7 @@ initValue();
       <div class="logo" />
       <a-menu theme="light" mode="inline">
         <template v-for="item in menu" :key="item.key">
-          <a-menu-item>
+          <a-menu-item @click="menuClick(item.path)">
             <icon-font :type="item.type" />
             <span>{{ item.title }}</span>
           </a-menu-item>
