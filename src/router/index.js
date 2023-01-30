@@ -17,6 +17,11 @@ const router = createRouter({
           // component: () => import("../views/workbench/index.vue"),
           component: WorkBench,
         },
+        {
+          path: "/404",
+          name: "404",
+          component: () => import("../views/error-page/index.vue"),
+        }
       ],
     },
     {
