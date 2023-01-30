@@ -1,22 +1,49 @@
 <script setup>
 import { RouterView } from "vue-router";
 import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   ExportOutlined,
   GithubOutlined,
   FullscreenOutlined,
 } from "@ant-design/icons-vue";
+import { createFromIconfontCN } from "@ant-design/icons-vue";
 import { ref } from "vue";
 import LocalCache from "@/utils/storage";
 // import axios from "axios";
-
+const IconFont = createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/c/font_3873364_0ppxjufpby5.js",
+});
 const collapsed = ref(false);
 // eslint-disable-next-line no-unused-vars
 const selectedKey = ref(["1"]);
+
+const menu = ref([
+  {
+    key: 1,
+    title: "工作台",
+    path: "/workbench",
+    type: "icon-zaixianxuanfang",
+  },
+  {
+    key: 2,
+    title: "外部链接",
+    path: "/externalLink",
+    type: "icon-lianjie",
+  },
+  {
+    key: 3,
+    title: "多级菜单",
+    path: "/multimenu",
+    type: "icon-caidan",
+  },
+  {
+    key: 4,
+    title: "404",
+    path: "/404",
+    type: "icon-icon-test",
+  },
+]);
 
 const loginInfo = ref({
   username: "",
@@ -50,18 +77,12 @@ initValue();
     >
       <div class="logo" />
       <a-menu theme="light" mode="inline">
-        <a-menu-item key="1">
-          <user-outlined />
-          <span>nav 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <video-camera-outlined />
-          <span>nav 2</span>
-        </a-menu-item>
-        <a-menu-item key="3">
-          <upload-outlined />
-          <span>nav 3</span>
-        </a-menu-item>
+        <template v-for="item in menu" :key="item.key">
+          <a-menu-item>
+            <icon-font :type="item.type" />
+            <span>{{ item.title }}</span>
+          </a-menu-item>
+        </template>
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -87,7 +108,7 @@ initValue();
         <div>
           <github-outlined style="fontsize: 18px" class="icon" />
           <!-- eslint-disable-next-line prettier/prettier -->
-        <FullscreenOutlined style="fontSize: 18px" class="icon" />
+          <FullscreenOutlined style="fontSize: 18px" class="icon" />
           <img
             src="../assets/images/avatar.png"
             alt="avatar"
