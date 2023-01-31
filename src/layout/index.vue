@@ -146,7 +146,7 @@ initValue();
           </a-dropdown>
         </div>
       </a-layout-header>
-      <a-layout-content
+      <!-- <a-layout-content
         :style="{
           margin: '24px 16px',
           padding: '24px',
@@ -155,7 +155,10 @@ initValue();
         }"
       >
         <RouterView />
-      </a-layout-content>
+      </a-layout-content> -->
+      <div class="content">
+        <RouterView />
+      </div>
     </a-layout>
   </a-layout>
 </template>
@@ -192,5 +195,11 @@ initValue();
   width: 30px;
   height: 30px;
   border-radius: 50%;
+}
+
+.content {
+  width: 100%;
+  height: 100vh;
+  padding: 10px;
 }
 </style>
