@@ -53,6 +53,13 @@ const router = createRouter({
             title: "404",
           },
         },
+        // 多级菜单
+        {
+          path: "multimenu",
+          name: "multimenu",
+          component: () => import("../views/multimenu/index.vue"),
+          title: "多级菜单",
+        },
       ],
     },
     // 登录页面, 如果没有输入信息强制重定位到登录页面
