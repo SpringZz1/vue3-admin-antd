@@ -12,7 +12,7 @@ const backToMenu = () => {
   <div class="container">
     <img src="../../assets/images/404.webp" alt="empty" />
     <span>抱歉, 你访问的页面不存在。</span>
-    <a-button class="btn" @click="backToMenu">Default Button</a-button>
+    <a-button class="btn" @click="backToMenu">回到首页</a-button>
   </div>
 </template>
 
