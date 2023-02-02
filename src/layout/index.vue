@@ -83,8 +83,8 @@ initValue();
       style="background-color: #fff"
     >
       <div class="logo" />
-      <a-menu theme="light" mode="inline">
-        <template v-for="item in menu" :key="item.key">
+      <a-menu theme="light" mode="inline" :selectedKeys="[$route.path]">
+        <template v-for="item in menu" :key="item.path">
           <a-menu-item @click="menuClick(item.path)">
             <icon-font :type="item.type" />
             <span>{{ item.title }}</span>
