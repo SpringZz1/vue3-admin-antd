@@ -8,7 +8,7 @@ import {
   FullscreenOutlined,
 } from "@ant-design/icons-vue";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import LocalCache from "@/utils/storage";
 import { useRouter } from "vue-router";
 // import axios from "axios";
@@ -20,6 +20,7 @@ const collapsed = ref(false);
 const selectedKey = ref(["1"]);
 
 const router = useRouter();
+// const route = useRoute();
 const menu = ref([
   {
     key: 1,
@@ -32,6 +33,18 @@ const menu = ref([
     title: "外部链接",
     path: "/externalLink",
     type: "icon-lianjie",
+    children: [
+      {
+        path: "https://github.com/SpringZz1/vue3-admin-antd",
+        name: "github",
+        title: "源码",
+      },
+      {
+        path: "https://github.com/SpringZz1",
+        name: "blog",
+        title: "github主页",
+      },
+    ],
   },
   {
     key: 3,
@@ -46,6 +59,14 @@ const menu = ref([
     type: "icon-icon-test",
   },
 ]);
+
+const hasChildren = computed(() => {
+  return menu.value.filter((item) => item.children);
+});
+
+const noChildren = computed(() => {
+  return menu.value.filter((item) => !item.children);
+});
 
 const loginInfo = ref({
   username: "",
@@ -72,6 +93,8 @@ const menuClick = (path) => {
 };
 
 initValue();
+// getMenuItem($route);
+// console.log(route.meta);
 </script>
 
 <template>
@@ -84,12 +107,26 @@ initValue();
     >
       <div class="logo" />
       <a-menu theme="light" mode="inline" :selectedKeys="[$route.path]">
-        <template v-for="item in menu" :key="item.path">
+        <template v-for="item in noChildren" :key="item.path">
           <a-menu-item @click="menuClick(item.path)">
             <icon-font :type="item.type" />
             <span>{{ item.title }}</span>
           </a-menu-item>
         </template>
+        <!-- TODO: 二级菜单还待实现 -->
+        <template v-for="item in hasChildren" :key="item.path">
+          <a-sub-menu @click="menuClick(item.path)">
+            <icon-font :type="item.type" />
+            <span>{{ item.title }}</span>
+          </a-sub-menu>
+        </template>
+        <!-- <a-sub-menu key="sub4">
+          <template #title>Navigation Three</template>
+          <a-menu-item key="9">Option 9</a-menu-item>
+          <a-menu-item key="10">Option 10</a-menu-item>
+          <a-menu-item key="11">Option 11</a-menu-item>
+          <a-menu-item key="12">Option 12</a-menu-item>
+        </a-sub-menu> -->
       </a-menu>
     </a-layout-sider>
     <a-layout>
