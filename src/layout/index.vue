@@ -13,7 +13,7 @@ import LocalCache from "@/utils/storage";
 import { useRouter } from "vue-router";
 // import axios from "axios";
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/c/font_3873364_0ppxjufpby5.js",
+  scriptUrl: "//at.alicdn.com/t/c/font_3873364_4qdcufrvcx2.js",
 });
 const collapsed = ref(false);
 // eslint-disable-next-line no-unused-vars
@@ -26,7 +26,7 @@ const menu = ref([
     key: 1,
     title: "工作台",
     path: "/workbench",
-    type: "icon-zaixianxuanfang",
+    type: "icon-zhuye",
   },
   {
     key: 2,
@@ -38,11 +38,13 @@ const menu = ref([
         path: "https://github.com/SpringZz1/vue3-admin-antd",
         name: "github",
         title: "源码",
+        type: "icon-github",
       },
       {
         path: "https://github.com/SpringZz1",
         name: "blog",
         title: "github主页",
+        type: "icon-gerenzhongxin-wode-02",
       },
     ],
   },
@@ -51,6 +53,18 @@ const menu = ref([
     title: "多级菜单",
     path: "/multimenu",
     type: "icon-caidan",
+    children: [
+      {
+        title: "多级菜单",
+        path: "/multimenu",
+        type: "icon-caidan",
+        children: {
+          title: "多级菜单",
+          path: "/multimenu",
+          type: "icon-caidan",
+        },
+      },
+    ],
   },
   {
     key: 4,
@@ -87,9 +101,14 @@ const initValue = () => {
   }
 };
 
+// 实现vue内部路由跳转
 const menuClick = (path) => {
   console.log("跳转" + path);
   router.push(path);
+};
+// 实现点击跳转至外部链接
+const routeToExt = (url) => {
+  window.open(url);
 };
 
 initValue();
@@ -109,15 +128,28 @@ initValue();
       <a-menu theme="light" mode="inline" :selectedKeys="[$route.path]">
         <template v-for="item in noChildren" :key="item.path">
           <a-menu-item @click="menuClick(item.path)">
-            <icon-font :type="item.type" />
+            <!-- eslint-disable-next-line prettier/prettier -->
+            <icon-font :type="item.type" style="fontSize: 18px" />
             <span>{{ item.title }}</span>
           </a-menu-item>
         </template>
-        <!-- TODO: 二级菜单还待实现 -->
+        <!-- 一级菜单 -->
         <template v-for="item in hasChildren" :key="item.path">
           <a-sub-menu @click="menuClick(item.path)">
-            <icon-font :type="item.type" />
-            <span>{{ item.title }}</span>
+            <template #title>
+              <!-- eslint-disable-next-line prettier/prettier -->
+              <icon-font :type="item.type" style="fontSize: 18px"/>
+              <span>{{ item.title }}</span></template
+            >
+            <a-menu-item
+              v-for="sub of item.children"
+              @click="routeToExt(sub.path)"
+              :key="sub.path"
+            >
+              <!-- eslint-disable-next-line prettier/prettier -->
+              <icon-font :type="sub.type" style="fontSize: 18px"/>
+              {{ sub.title }}
+            </a-menu-item>
           </a-sub-menu>
         </template>
         <!-- <a-sub-menu key="sub4">
@@ -166,7 +198,7 @@ initValue();
               @click.prevent
               style="margin-right: 10px"
             >
-              {{ loginInfo.username }} (admin)
+              {{ loginInfo.username }}
             </a>
 
             <template #overlay>
@@ -183,16 +215,6 @@ initValue();
           </a-dropdown>
         </div>
       </a-layout-header>
-      <!-- <a-layout-content
-        :style="{
-          margin: '24px 16px',
-          padding: '24px',
-          background: '#fff',
-          minHeight: '280px',
-        }"
-      >
-        <RouterView />
-      </a-layout-content> -->
       <div class="content">
         <RouterView />
       </div>
@@ -201,10 +223,16 @@ initValue();
 </template>
 
 <style lang="scss" scoped>
-#components-layout-demo-side .logo {
+#components-layout-demo-side {
   height: 32px;
   margin: 16px;
   background: rgba(255, 255, 255, 0.3);
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(200, 12, 12, 0.3);
 }
 
 .site-layout .site-layout-background {
