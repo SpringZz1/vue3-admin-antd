@@ -13,6 +13,10 @@
 .info {
   position: fixed;
   bottom: 40px;
+  /* margin: auto; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
   p {
     color: #6a6a6a;
   }
