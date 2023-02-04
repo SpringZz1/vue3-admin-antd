@@ -10,76 +10,23 @@ import {
 import { createFromIconfontCN } from "@ant-design/icons-vue";
 import { computed, ref } from "vue";
 import LocalCache from "@/utils/storage";
-import { useRouter } from "vue-router";
-// import axios from "axios";
+import { useRouter, useRoute } from "vue-router";
+import AppFooter from "@/components/common/AppFooter.vue";
+import { sideMenu } from "@/api/config.js";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/c/font_3873364_4qdcufrvcx2.js",
 });
 const collapsed = ref(false);
-// eslint-disable-next-line no-unused-vars
-const selectedKey = ref(["1"]);
 
 const router = useRouter();
-// const route = useRoute();
-const menu = ref([
-  {
-    key: 1,
-    title: "工作台",
-    path: "/workbench",
-    type: "icon-zhuye",
-  },
-  {
-    key: 2,
-    title: "外部链接",
-    path: "/externalLink",
-    type: "icon-lianjie",
-    children: [
-      {
-        path: "https://github.com/SpringZz1/vue3-admin-antd",
-        name: "github",
-        title: "源码",
-        type: "icon-github",
-      },
-      {
-        path: "https://github.com/SpringZz1",
-        name: "blog",
-        title: "github主页",
-        type: "icon-gerenzhongxin-wode-02",
-      },
-    ],
-  },
-  {
-    key: 3,
-    title: "多级菜单",
-    path: "/multimenu",
-    type: "icon-caidan",
-    children: [
-      {
-        title: "多级菜单",
-        path: "/multimenu",
-        type: "icon-caidan",
-        children: {
-          title: "多级菜单",
-          path: "/multimenu",
-          type: "icon-caidan",
-        },
-      },
-    ],
-  },
-  {
-    key: 4,
-    title: "404",
-    path: "/404",
-    type: "icon-icon-test",
-  },
-]);
+const route = useRoute();
 
 const hasChildren = computed(() => {
-  return menu.value.filter((item) => item.children);
+  return sideMenu.filter((item) => item.children);
 });
 
 const noChildren = computed(() => {
-  return menu.value.filter((item) => !item.children);
+  return sideMenu.filter((item) => !item.children);
 });
 
 const loginInfo = ref({
@@ -104,16 +51,19 @@ const initValue = () => {
 // 实现vue内部路由跳转
 const menuClick = (path) => {
   console.log("跳转" + path);
-  router.push(path);
-};
-// 实现点击跳转至外部链接
-const routeToExt = (url) => {
-  window.open(url);
+  // 实现点击跳转至外部链接
+  if (path.includes("https")) {
+    // 如果包含https, 则点击跳转至外部链接
+    window.open(path);
+  } else {
+    // 否则单页跳转
+    router.push(path);
+  }
 };
 
 initValue();
 // getMenuItem($route);
-// console.log(route.meta);
+console.log(route.meta);
 </script>
 
 <template>
@@ -143,7 +93,7 @@ initValue();
             >
             <a-menu-item
               v-for="sub of item.children"
-              @click="routeToExt(sub.path)"
+              @click="menuClick(sub.path)"
               :key="sub.path"
             >
               <!-- eslint-disable-next-line prettier/prettier -->
@@ -152,13 +102,6 @@ initValue();
             </a-menu-item>
           </a-sub-menu>
         </template>
-        <!-- <a-sub-menu key="sub4">
-          <template #title>Navigation Three</template>
-          <a-menu-item key="9">Option 9</a-menu-item>
-          <a-menu-item key="10">Option 10</a-menu-item>
-          <a-menu-item key="11">Option 11</a-menu-item>
-          <a-menu-item key="12">Option 12</a-menu-item>
-        </a-sub-menu> -->
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -217,6 +160,9 @@ initValue();
       </a-layout-header>
       <div class="content">
         <RouterView />
+        <footer class="footer">
+          <AppFooter v-if="$route.meta.title !== '404'" />
+        </footer>
       </div>
     </a-layout>
   </a-layout>
@@ -266,5 +212,10 @@ initValue();
   width: 100%;
   height: 100vh;
   padding: 10px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
 }
 </style>
