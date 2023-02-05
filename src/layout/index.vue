@@ -4,13 +4,12 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   ExportOutlined,
-  GithubOutlined,
   FullscreenOutlined,
 } from "@ant-design/icons-vue";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
 import { computed, ref } from "vue";
 import LocalCache from "@/utils/storage";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import AppFooter from "@/components/common/AppFooter.vue";
 import { sideMenu } from "@/api/config.js";
 const IconFont = createFromIconfontCN({
@@ -19,7 +18,6 @@ const IconFont = createFromIconfontCN({
 const collapsed = ref(false);
 
 const router = useRouter();
-const route = useRoute();
 
 const hasChildren = computed(() => {
   return sideMenu.filter((item) => item.children);
@@ -62,8 +60,6 @@ const menuClick = (path) => {
 };
 
 initValue();
-// getMenuItem($route);
-console.log(route.meta);
 </script>
 
 <template>
@@ -73,8 +69,12 @@ console.log(route.meta);
       :trigger="null"
       collapsible
       style="background-color: #fff"
+      width="240px"
     >
-      <div class="logo" />
+      <div class="logo">
+        <img class="image" src="@/assets/svg/logo.svg" alt="image" />
+        <span class="title">Vue Admin AntdV</span>
+      </div>
       <a-menu theme="light" mode="inline" :selectedKeys="[$route.path]">
         <template v-for="item in noChildren" :key="item.path">
           <a-menu-item @click="menuClick(item.path)">
@@ -125,7 +125,7 @@ console.log(route.meta);
         </a-breadcrumb> -->
         <!-- eslint-disable-next-line prettier/prettier -->
         <div>
-          <github-outlined style="fontsize: 18px" class="icon" />
+          <!-- <github-outlined style="fontsize: 18px" class="icon" /> -->
           <!-- eslint-disable-next-line prettier/prettier -->
           <FullscreenOutlined style="fontSize: 18px" class="icon" />
           <img
@@ -139,7 +139,7 @@ console.log(route.meta);
             <a
               class="ant-dropdown-link"
               @click.prevent
-              style="margin-right: 10px"
+              style="margin: 0 7px 0 7px; font-size: 18px"
             >
               {{ loginInfo.username }}
             </a>
@@ -176,9 +176,29 @@ console.log(route.meta);
 }
 
 .logo {
-  height: 32px;
+  height: 42px;
   margin: 16px;
-  background: rgba(200, 12, 12, 0.3);
+}
+
+.image {
+  /* display: inline-block; */
+  float: left;
+  height: 100%;
+  margin-right: 5px;
+  margin-left: 7px;
+  line-height: 42px;
+}
+
+.title {
+  display: inherit;
+  font-size: 18px;
+  font-weight: bold;
+  text-overflow: clip;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 42px;
+  text-align: center;
+  word-break: keep-all;
 }
 
 .site-layout .site-layout-background {
@@ -192,12 +212,8 @@ console.log(route.meta);
   white-space: nowrap;
 }
 
-.test {
-  display: inline-block;
-}
-
 .icon {
-  margin-right: 15px;
+  margin-right: 10px;
   width: 25px;
   height: 25px;
 }
