@@ -34,4 +34,4 @@ class LocalCache {
   }
 }
 // 设置过期时间为10s, 测试使用
-export default new LocalCache(10000);
+export default new LocalCache(100000);
