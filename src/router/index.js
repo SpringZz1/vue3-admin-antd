@@ -10,6 +10,10 @@ const router = createRouter({
       path: "/",
       component: Layout,
       redirect: "/login",
+      meta: {
+        type: "icon-caidan",
+        // title: "layout",
+      },
       children: [
         // 工作台
         {
@@ -18,7 +22,7 @@ const router = createRouter({
           // component: () => import("../views/workbench/index.vue"),
           component: WorkBench,
           meta: {
-            type: "icon-zaixianxuanfang",
+            type: "icon-zhuye",
             title: "工作台",
           },
         },
@@ -35,11 +39,13 @@ const router = createRouter({
               path: "https://github.com/SpringZz1/vue3-admin-antd",
               name: "github",
               title: "源码",
+              type: "icon-github",
             },
             {
               path: "https://github.com/SpringZz1",
               name: "blog",
               title: "github主页",
+              type: "icon-gerenzhongxin-wode-02",
             },
           ],
         },
@@ -59,6 +65,10 @@ const router = createRouter({
           name: "multimenu",
           component: () => import("../views/multimenu/index.vue"),
           title: "多级菜单",
+          meta: {
+            type: "icon-caidan",
+            title: "多级菜单",
+          },
         },
       ],
     },
@@ -69,6 +79,7 @@ const router = createRouter({
       component: Login,
       meta: {
         title: "login",
+        type: "icon-caidan",
       },
     },
   ],
