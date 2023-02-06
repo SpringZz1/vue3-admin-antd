@@ -73,7 +73,7 @@ initValue();
     >
       <div class="logo">
         <img class="image" src="@/assets/svg/logo.svg" alt="image" />
-        <span class="title" v-if="!collapsed">Vue Admin AntdV</span>
+        <span class="title" v-show="!collapsed">Vue Admin AntdV</span>
       </div>
       <a-menu theme="light" mode="inline" :selectedKeys="[$route.path]">
         <template v-for="item in noChildren" :key="item.path">
