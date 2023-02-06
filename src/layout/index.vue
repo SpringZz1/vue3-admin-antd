@@ -10,6 +10,7 @@ import { createFromIconfontCN } from "@ant-design/icons-vue";
 import { computed, ref } from "vue";
 import LocalCache from "@/utils/storage";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores";
 import AppFooter from "@/components/common/AppFooter.vue";
 import { sideMenu } from "@/api/config.js";
 const IconFont = createFromIconfontCN({
@@ -49,6 +50,7 @@ const initValue = () => {
 // 实现vue内部路由跳转
 const menuClick = (path) => {
   console.log("跳转" + path);
+  // console.log(route.matched);
   // 实现点击跳转至外部链接
   if (path.includes("https")) {
     // 如果包含https, 则点击跳转至外部链接
@@ -60,6 +62,13 @@ const menuClick = (path) => {
 };
 
 initValue();
+// 使用pinia获得持久化的用户信息
+const userStore = useUserStore();
+userStore.getUserInfo();
+// console.log(userStore.username);
+// console.log("$route.matched");
+// const route = useRoute();
+// console.log(route.matched);
 </script>
 
 <template>
@@ -106,26 +115,40 @@ initValue();
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0 1px" class="header">
-        <a-button
-          type="primary"
-          style="margin-left: 20px"
-          @click="toggleCollapsed"
-        >
-          <MenuUnfoldOutlined v-if="collapsed" />
-          <MenuFoldOutlined v-else />
-        </a-button>
-        <!-- TODO:这里暂时写死，后期需要换成router的面包屑 -->
-        <!-- <a-breadcrumb style="display: inline-block">
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item
-            ><a href="">Application Center</a></a-breadcrumb-item
+        <div>
+          <a-button
+            type="primary"
+            style="margin-left: 20px; margin-right: 10px"
+            @click="toggleCollapsed"
           >
-          <a-breadcrumb-item><a href="">Application List</a></a-breadcrumb-item>
-          <a-breadcrumb-item>An Application</a-breadcrumb-item>
-        </a-breadcrumb> -->
+            <MenuUnfoldOutlined v-if="collapsed" />
+            <MenuFoldOutlined v-else />
+          </a-button>
+          <!-- TODO:这里暂时写死，后期需要换成router的面包屑 -->
+          <a-breadcrumb style="display: inline-block">
+            <!-- <a-breadcrumb-item>{{ routes }}</a-breadcrumb-item>
+            <a-breadcrumb-item
+              ><a href="">Application Center</a></a-breadcrumb-item
+            >
+            <a-breadcrumb-item
+              ><a href="">Application List</a></a-breadcrumb-item
+            >
+            <a-breadcrumb-item>An Application</a-breadcrumb-item> -->
+            <a-breadcrumb-item
+              style="font-size: 15px"
+              v-for="(item, index) of $route.matched.filter(
+                (item) => item.meta.title
+              )"
+              :key="item.path"
+            >
+              <!-- eslint-disable-next-line prettier/prettier -->
+              <icon-font :type="item.meta.type" style="fontSize: 18px" />
+              <router-link :to="item.path">{{ item.meta.title }}</router-link>
+            </a-breadcrumb-item>
+          </a-breadcrumb>
+        </div>
         <!-- eslint-disable-next-line prettier/prettier -->
         <div>
-          <!-- <github-outlined style="fontsize: 18px" class="icon" /> -->
           <!-- eslint-disable-next-line prettier/prettier -->
           <FullscreenOutlined style="fontSize: 18px" class="icon" />
           <img
@@ -141,7 +164,8 @@ initValue();
               @click.prevent
               style="margin: 0 7px 0 7px; font-size: 18px"
             >
-              {{ loginInfo.username }}
+              <!-- {{ loginInfo.username }} -->
+              {{ userStore.username }}
             </a>
 
             <template #overlay>
