@@ -70,13 +70,13 @@ const initLoginInfo = () => {
     loginInfo.value.password = localLoginInfo.password || "";
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
-  // TODO: 测试pinia, 后续需要删除
-  const userStore = useUserStore();
-  userStore.getUserInfo();
 };
 
 // 生命周期时登录信息初始化
 initLoginInfo();
+// TODO: 测试pinia, 后续需要删除
+const userStore = useUserStore();
+console.log(userStore.getUserInfo());
 
 const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
