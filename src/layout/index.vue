@@ -13,6 +13,7 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores";
 import AppFooter from "@/components/common/AppFooter.vue";
 import { sideMenu } from "@/api/config.js";
+import { Modal } from "ant-design-vue";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/c/font_3873364_4qdcufrvcx2.js",
 });
@@ -59,6 +60,44 @@ const menuClick = (path) => {
     // 否则单页跳转
     router.push(path);
   }
+};
+
+const showConfirm = () => {
+  Modal.confirm({
+    title: "Do you Want to delete these items?",
+    // icon: createVNode(ExclamationCircleOutlined),
+    // content: createVNode('div', {
+    //   style: 'color:red;',
+    // }, 'Some descriptions'),
+    onOk() {
+      console.log("OK");
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+    class: "test",
+  });
+};
+
+// 退出登录
+const logout = () => {
+  // TODO: 点击弹出对话框功能, 退出后相关的操作还未实现
+  Modal.confirm({
+    title: "确定退出登录?",
+    // icon: createVNode(ExclamationCircleOutlined),
+    // content: createVNode('div', {
+    //   style: 'color:red;',
+    // }, 'Some descriptions'),
+    centered: true,
+    onOk() {
+      console.log("OK");
+      router.push("/login");
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+    class: "test",
+  });
 };
 
 initValue();
@@ -136,9 +175,7 @@ userStore.getUserInfo();
             <a-breadcrumb-item>An Application</a-breadcrumb-item> -->
             <a-breadcrumb-item
               style="font-size: 15px"
-              v-for="(item, index) of $route.matched.filter(
-                (item) => item.meta.title
-              )"
+              v-for="item of $route.matched.filter((item) => item.meta.title)"
               :key="item.path"
             >
               <!-- eslint-disable-next-line prettier/prettier -->
@@ -170,12 +207,11 @@ userStore.getUserInfo();
 
             <template #overlay>
               <a-menu>
-                <a-menu-item key="0">
-                  <a target="_blank" rel="noopener noreferrer" href="">
-                    <!-- <logout-outlined style="margin-right: 5px" /> -->
-                    <export-outlined style="margin-right: 5px" />
-                    退出登录
-                  </a>
+                <a-menu-item key="0" @click="logout">
+                  <!-- <a target="_blank" rel="noopener noreferrer" href=""> -->
+                  <export-outlined style="margin-right: 5px" />
+                  退出登录
+                  <!-- </a> -->
                 </a-menu-item>
               </a-menu>
             </template>
