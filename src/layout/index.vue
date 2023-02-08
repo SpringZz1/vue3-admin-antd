@@ -7,27 +7,21 @@ import {
   FullscreenOutlined,
 } from "@ant-design/icons-vue";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import LocalCache from "@/utils/storage";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores";
 import AppFooter from "@/components/common/AppFooter.vue";
-import { sideMenu } from "@/api/config.js";
+// import { sideMenu } from "@/api/config.js";
+import SideMenu from "./components/sideMenu/sideMenu.vue";
 import { Modal } from "ant-design-vue";
+import { routes } from "../router/index";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/c/font_3873364_4qdcufrvcx2.js",
 });
 const collapsed = ref(false);
 
 const router = useRouter();
-
-const hasChildren = computed(() => {
-  return sideMenu.filter((item) => item.children);
-});
-
-const noChildren = computed(() => {
-  return sideMenu.filter((item) => !item.children);
-});
 
 const loginInfo = ref({
   username: "",
@@ -46,48 +40,15 @@ const initValue = () => {
     loginInfo.value.password = localLoginInfo.password || "";
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
+
+  console.log(routes);
 };
 
-// 实现vue内部路由跳转
-const menuClick = (path) => {
-  console.log("跳转" + path);
-  // console.log(route.matched);
-  // 实现点击跳转至外部链接
-  if (path.includes("https")) {
-    // 如果包含https, 则点击跳转至外部链接
-    window.open(path);
-  } else {
-    // 否则单页跳转
-    router.push(path);
-  }
-};
-
-const showConfirm = () => {
-  Modal.confirm({
-    title: "Do you Want to delete these items?",
-    // icon: createVNode(ExclamationCircleOutlined),
-    // content: createVNode('div', {
-    //   style: 'color:red;',
-    // }, 'Some descriptions'),
-    onOk() {
-      console.log("OK");
-    },
-    onCancel() {
-      console.log("Cancel");
-    },
-    class: "test",
-  });
-};
-
-// 退出登录
+// // 退出登录
 const logout = () => {
   // TODO: 点击弹出对话框功能, 退出后相关的操作还未实现
   Modal.confirm({
     title: "确定退出登录?",
-    // icon: createVNode(ExclamationCircleOutlined),
-    // content: createVNode('div', {
-    //   style: 'color:red;',
-    // }, 'Some descriptions'),
     centered: true,
     onOk() {
       console.log("OK");
@@ -104,10 +65,6 @@ initValue();
 // 使用pinia获得持久化的用户信息
 const userStore = useUserStore();
 userStore.getUserInfo();
-// console.log(userStore.username);
-// console.log("$route.matched");
-// const route = useRoute();
-// console.log(route.matched);
 </script>
 
 <template>
@@ -123,34 +80,8 @@ userStore.getUserInfo();
         <img class="image" src="@/assets/svg/logo.svg" alt="image" />
         <span class="title" v-show="!collapsed">Vue Admin AntdV</span>
       </div>
-      <a-menu theme="light" mode="inline" :selectedKeys="[$route.path]">
-        <template v-for="item in noChildren" :key="item.path">
-          <a-menu-item @click="menuClick(item.path)">
-            <!-- eslint-disable-next-line prettier/prettier -->
-            <icon-font :type="item.type" style="fontSize: 18px" />
-            <span>{{ item.title }}</span>
-          </a-menu-item>
-        </template>
-        <!-- 一级菜单 -->
-        <template v-for="item in hasChildren" :key="item.path">
-          <a-sub-menu @click="menuClick(item.path)">
-            <template #title>
-              <!-- eslint-disable-next-line prettier/prettier -->
-              <icon-font :type="item.type" style="fontSize: 18px"/>
-              <span>{{ item.title }}</span></template
-            >
-            <a-menu-item
-              v-for="sub of item.children"
-              @click="menuClick(sub.path)"
-              :key="sub.path"
-            >
-              <!-- eslint-disable-next-line prettier/prettier -->
-              <icon-font :type="sub.type" style="fontSize: 18px"/>
-              {{ sub.title }}
-            </a-menu-item>
-          </a-sub-menu>
-        </template>
-      </a-menu>
+
+      <!-- <SideMenu /> -->
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0 1px" class="header">
@@ -165,14 +96,6 @@ userStore.getUserInfo();
           </a-button>
           <!-- TODO:这里暂时写死，后期需要换成router的面包屑 -->
           <a-breadcrumb style="display: inline-block">
-            <!-- <a-breadcrumb-item>{{ routes }}</a-breadcrumb-item>
-            <a-breadcrumb-item
-              ><a href="">Application Center</a></a-breadcrumb-item
-            >
-            <a-breadcrumb-item
-              ><a href="">Application List</a></a-breadcrumb-item
-            >
-            <a-breadcrumb-item>An Application</a-breadcrumb-item> -->
             <a-breadcrumb-item
               style="font-size: 15px"
               v-for="item of $route.matched.filter((item) => item.meta.title)"
