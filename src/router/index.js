@@ -7,7 +7,9 @@ import tokenCache from "../utils/token";
 export const routes = [
   {
     path: "/",
-    component: Layout,
+    // component: Layout,
+    component: () => import("../layout/index.vue"),
+    name: "index",
     redirect: "/login",
     meta: {
       type: "icon-caidan",
@@ -83,6 +85,8 @@ export const routes = [
   },
 ];
 
+export const menuRoutes = routes.filter((route) => route.name === "index");
+
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes,
@@ -97,7 +101,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       console.log("没有token信息, 重定向至login页面");
-      router.push("login");
+      next({ name: "login" });
     }
   } else {
     next();
