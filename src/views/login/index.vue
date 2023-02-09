@@ -52,7 +52,8 @@ import LocalCache from "@/utils/storage";
 import LoginCheck from "@/utils/loginCheck";
 import TokenCache from "@/utils/token";
 import api from "./api";
-import { useUserStore } from "@/stores";
+// import { useUserStore } from "@/stores";
+// import { menuRoutes } from "../../router";
 import AppFooter from "@/components/common/AppFooter.vue";
 
 const router = useRouter();
@@ -75,8 +76,8 @@ const initLoginInfo = () => {
 // 生命周期时登录信息初始化
 initLoginInfo();
 // TODO: 测试pinia, 后续需要删除
-const userStore = useUserStore();
-console.log(userStore.getUserInfo());
+// const userStore = useUserStore();
+// console.log(userStore.getUserInfo());
 
 const loginHandle = () => {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
