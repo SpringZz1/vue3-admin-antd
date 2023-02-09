@@ -66,14 +66,33 @@ export const routes = [
       },
       // 多级菜单
       {
-        path: "multimenu",
+        path: "/multimenu",
         name: "multimenu",
         component: () => import("../views/multimenu/index.vue"),
-        title: "多级菜单",
         meta: {
           type: "icon-caidan",
           title: "多级菜单",
         },
+        children: [
+          {
+            path: "/a-1",
+            name: "a-1",
+            component: () => import("../views/multimenu/a-1/index.vue"),
+            meta: {
+              type: "icon-caidan",
+              title: "a-1",
+            },
+          },
+          {
+            path: "/a-2",
+            name: "a-2",
+            component: () => import("../views/multimenu/a-2/index.vue"),
+            meta: {
+              type: "icon-caidan",
+              title: "a-2",
+            },
+          },
+        ],
       },
     ],
   },
