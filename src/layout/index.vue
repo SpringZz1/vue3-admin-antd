@@ -12,10 +12,8 @@ import LocalCache from "@/utils/storage";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores";
 import AppFooter from "@/components/common/AppFooter.vue";
-// import { sideMenu } from "@/api/config.js";
-import SideMenu from "./components/sideMenu/sideMenu.vue";
+import SideMenu from "./components/sideMenu/SideMenu.vue";
 import { Modal } from "ant-design-vue";
-import { routes } from "../router/index";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/c/font_3873364_4qdcufrvcx2.js",
 });
@@ -40,8 +38,8 @@ const initValue = () => {
     loginInfo.value.password = localLoginInfo.password || "";
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
-
-  console.log(routes);
+  // console.log("1111");
+  // console.log(menuRoutes);
 };
 
 // // 退出登录
@@ -73,7 +71,11 @@ userStore.getUserInfo();
       v-model:collapsed="collapsed"
       :trigger="null"
       collapsible
-      style="background-color: #fff"
+      style="
+        background-color: #fff;
+        border-right: 1px solid #86909c45;
+        padding: 2px;
+      "
       width="240px"
     >
       <div class="logo">
@@ -81,7 +83,7 @@ userStore.getUserInfo();
         <span class="title" v-show="!collapsed">Vue Admin AntdV</span>
       </div>
 
-      <!-- <SideMenu /> -->
+      <SideMenu />
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0 1px" class="header">
@@ -94,7 +96,6 @@ userStore.getUserInfo();
             <MenuUnfoldOutlined v-if="collapsed" />
             <MenuFoldOutlined v-else />
           </a-button>
-          <!-- TODO:这里暂时写死，后期需要换成router的面包屑 -->
           <a-breadcrumb style="display: inline-block">
             <a-breadcrumb-item
               style="font-size: 15px"
