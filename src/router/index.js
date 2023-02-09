@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/login/index.vue";
-import Layout from "../layout/index.vue";
+// import Layout from "../layout/index.vue";
 import WorkBench from "../views/workbench/index.vue";
 import tokenCache from "../utils/token";
 
@@ -39,14 +39,18 @@ export const routes = [
           {
             path: "https://github.com/SpringZz1/vue3-admin-antd",
             name: "github",
-            title: "源码",
-            type: "icon-github",
+            meta: {
+              title: "源码",
+              type: "icon-github",
+            },
           },
           {
             path: "https://github.com/SpringZz1",
             name: "blog",
-            title: "github主页",
-            type: "icon-gerenzhongxin-wode-02",
+            meta: {
+              title: "github主页",
+              type: "icon-gerenzhongxin-wode-02",
+            },
           },
         ],
       },
@@ -85,7 +89,7 @@ export const routes = [
   },
 ];
 
-export const menuRoutes = routes.filter((route) => route.name === "index");
+export const menuRoutes = routes.find((route) => route.name === "index");
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
