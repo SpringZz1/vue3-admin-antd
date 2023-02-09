@@ -16,12 +16,8 @@ const IconFont = createFromIconfontCN({
 const onOpenChange = (keys) => {
   // 当菜单被展开时触发, 点击已经展开的数组时传入的是空数组, 点击为展开的菜单时传入的是[当前菜单的key, 点击的菜单key]
   const latestOpenKey = keys.find((key) => openKeys.value.indexOf(key) === -1);
-  if (keys.length !== 0) {
-    openKeys.value = [latestOpenKey];
-  } else {
-    openKeys.value = latestOpenKey ? [latestOpenKey] : [];
-  }
-  // console.log(latestOpenKey);
+  openKeys.value = latestOpenKey ? [latestOpenKey] : [];
+  // console.log(openKeys.value);
 };
 
 // 实现vue内部路由跳转
@@ -46,7 +42,7 @@ const menuClick = (path) => {
     theme="light"
     mode="inline"
     :selectedKeys="[$route.path]"
-    :open-key="openKeys"
+    :openKeys="openKeys"
     @openChange="onOpenChange"
   >
     <template v-for="route of menuRoutes.children" :key="route.path">
