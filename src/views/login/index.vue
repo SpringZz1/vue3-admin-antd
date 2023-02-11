@@ -103,7 +103,7 @@ const loginHandle = () => {
         } else {
           LocalCache.remove("loginInfo");
         }
-        router.push("/workbench");
+        router.replace("/workbench");
       } else {
         message.error("账号或密码错误");
       }
