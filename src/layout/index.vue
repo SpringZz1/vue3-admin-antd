@@ -48,9 +48,12 @@ const logout = () => {
   Modal.confirm({
     title: "确定退出登录?",
     centered: true,
+    okText: "确定",
+    cancelText: "取消",
     onOk() {
       console.log("OK");
-      router.push("/login");
+      router.replace("/login");
+      // useUserStore.logout();
     },
     onCancel() {
       console.log("Cancel");
