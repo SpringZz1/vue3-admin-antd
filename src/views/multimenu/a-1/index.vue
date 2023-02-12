@@ -1,7 +1,8 @@
 <script setup></script>
 
 <template>
-  <div>test</div>
+  <div>a-1</div>
+  <RouterView />
 </template>
 
 <style lang="scss" scoped></style>

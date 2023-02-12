@@ -82,6 +82,28 @@ export const routes = [
               type: "icon-caidan",
               title: "a-1",
             },
+            children: [
+              {
+                path: "/a-1-1",
+                name: "a-1-1",
+                component: () =>
+                  import("../views/multimenu/a-1/a-1-1/index.vue"),
+                meta: {
+                  type: "icon-caidan",
+                  title: "a-1-1",
+                },
+              },
+              {
+                path: "/a-1-2",
+                name: "a-1-2",
+                component: () =>
+                  import("../views/multimenu/a-1/a-1-2/index.vue"),
+                meta: {
+                  type: "icon-caidan",
+                  title: "a-1-2",
+                },
+              },
+            ],
           },
           {
             path: "/a-2",
@@ -89,7 +111,7 @@ export const routes = [
             component: () => import("../views/multimenu/a-2/index.vue"),
             meta: {
               type: "icon-caidan",
-              title: "a-2",
+              title: "a-2 (单个子菜单)",
             },
           },
         ],
@@ -115,8 +137,9 @@ export const router = createRouter({
   routes: routes,
 });
 
-// 设置全局登录拦截, 本地没有loginInfo则重定位到login首页
+// 设置全局登录拦截, 本地没有token则重定位到login首页
 router.beforeEach((to, from, next) => {
+  window.document.title = to.meta.title + " | Vue Admin AntdV";
   const token = tokenCache.get("token");
   // 如果token不存在
   if (!token) {
