@@ -5,11 +5,13 @@ import {
   MenuFoldOutlined,
   ExportOutlined,
   FullscreenOutlined,
+  FullscreenExitOutlined,
 } from "@ant-design/icons-vue";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
 import { ref } from "vue";
 import LocalCache from "@/utils/storage";
 import { useRouter } from "vue-router";
+import { useFullscreen } from "@vueuse/core";
 import { useUserStore } from "@/stores";
 import AppFooter from "@/components/common/AppFooter.vue";
 import SideMenu from "./components/sideMenu/SideMenu.vue";
@@ -17,6 +19,8 @@ import { Modal } from "ant-design-vue";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/c/font_3873364_4qdcufrvcx2.js",
 });
+
+const { isFullscreen, toggle } = useFullscreen();
 const collapsed = ref(false);
 
 const router = useRouter();
@@ -114,7 +118,12 @@ userStore.getUserInfo();
         <!-- eslint-disable-next-line prettier/prettier -->
         <div>
           <!-- eslint-disable-next-line prettier/prettier -->
-          <FullscreenOutlined style="fontSize: 18px" class="icon" />
+          <FullscreenOutlined class="icon" @click="toggle" v-if="!isFullscreen"/>
+          <FullscreenExitOutlined
+            style="fontsize: 18px"
+            class="icon"
+            v-else
+          ></FullscreenExitOutlined>
           <img
             src="../assets/images/avatar.png"
             alt="avatar"
