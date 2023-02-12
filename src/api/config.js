@@ -45,3 +45,10 @@ export const sideMenu = [
     type: "icon-icon-test",
   },
 ];
+
+export const rootSubmenuKeys = [
+  "/externalLink",
+  "/multimenu",
+  "/workbench",
+  "/404",
+];

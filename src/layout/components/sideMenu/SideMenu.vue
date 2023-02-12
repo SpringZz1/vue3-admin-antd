@@ -4,6 +4,7 @@ import SubMenu from "./SubMenu.vue";
 import { useRouter } from "vue-router";
 import { menuRoutes } from "@/router/index";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
+import { rootSubmenuKeys } from "@/api/config.js";
 
 const openKeys = ref([]);
 
@@ -14,10 +15,14 @@ const IconFont = createFromIconfontCN({
 });
 
 const onOpenChange = (keys) => {
+  console.log(keys);
   // 当菜单被展开时触发, 点击已经展开的数组时传入的是空数组, 点击为展开的菜单时传入的是[当前菜单的key, 点击的菜单key]
   const latestOpenKey = keys.find((key) => openKeys.value.indexOf(key) === -1);
-  openKeys.value = latestOpenKey ? [latestOpenKey] : [];
-  // console.log(openKeys.value);
+  if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+    openKeys.value = keys;
+  } else {
+    openKeys.value = latestOpenKey ? [latestOpenKey] : [];
+  }
 };
 
 // 实现vue内部路由跳转
@@ -33,7 +38,7 @@ const menuClick = (path) => {
   }
 };
 
-// console.log(menuRoutes.children);
+// console.log(menuRoutes);
 </script>
 
 <template>
