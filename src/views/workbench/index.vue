@@ -1,81 +1,37 @@
 <script setup>
-import { notification } from "ant-design-vue";
-const openNotificationWithIcon = (type) => {
-  notification[type]({
-    message: "Notification Title",
-    description:
-      "This is the content of the notification. This is the content of the notification. This is the content of the notification.",
-  });
-};
+import { useUserStore } from "@/stores";
+const userStore = useUserStore();
 </script>
 
 <template>
-  <div style="background-color: #fff; padding: 20px">
-    <a-row :gutter="16">
-      <a-col :span="10">
-        <a-card>
-          <p style="font-size: 18px">按钮 Button</p>
-          <a-button type="primary" class="btn">Primary</a-button>
-          <a-button class="btn">Default</a-button>
-          <a-button type="dashed" class="btn">Dashed</a-button>
-          <a-button danger class="btn">Danger</a-button>
-          <a-button type="link" class="btn">Link</a-button>
-        </a-card>
-      </a-col>
-      <a-col :span="10">
-        <a-card>
-          <p style="font-size: 18px">通知 Notification</p>
-          <a-button
-            type="primary"
-            class="btn"
-            @click="() => openNotificationWithIcon('success')"
-            >Success</a-button
-          >
-          <a-button class="btn" @click="() => openNotificationWithIcon('info')"
-            >Info</a-button
-          >
-          <a-button
-            class="btn"
-            @click="() => openNotificationWithIcon('warning')"
-            >Warning</a-button
-          >
-          <a-button
-            danger
-            class="btn"
-            @click="() => openNotificationWithIcon('error')"
-            >Error</a-button
-          >
-        </a-card>
-      </a-col>
-    </a-row>
-  </div>
-  <!-- <div class="card">
-    <a-card title="按钮 Button" style="border-radius: 12px">
-      <a-button
-        type="primary"
-        @click="() => openNotificationWithIcon('success')"
-        >Success</a-button
-      >
-      <a-button @click="() => openNotificationWithIcon('info')">Info</a-button>
-      <a-button @click="() => openNotificationWithIcon('warning')"
-        >Warning</a-button
-      >
-      <a-button @click="() => openNotificationWithIcon('error')"
-        >Error</a-button
-      >
-    </a-card>
-  </div>
-  <div class="card">
-    <a-card title="Card title" :bordered="false" style="border-radius: 12px">
-      <p>Card content</p>
-      <p>Card content</p>
-      <p>Card content</p>
-    </a-card>
-  </div> -->
+  <a-card style="width: 100%" class="card">
+    <div style="display: flex; align-items: center">
+      <img :src="userStore.userAvatar" alt="头像" class="image" />
+      <div style="margin-left: 15px">
+        <p style="font-size: 18px; margin-top: 10px">
+          Hello, {{ userStore.username }}
+        </p>
+        <p style="color: gray">今天你学习了吗？</p>
+      </div>
+    </div>
+  </a-card>
+  <template v-if="true">
+    <div>yes</div>
+  </template>
 </template>
 
 <style lang="scss" scoped>
+.card {
+  border-radius: 12px;
+  margin: 10px 0 15px 0;
+}
 .btn {
   margin-right: 10px;
+}
+
+.image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
 }
 </style>
