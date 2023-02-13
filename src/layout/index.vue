@@ -120,9 +120,10 @@ userStore.getUserInfo();
           <!-- eslint-disable-next-line prettier/prettier -->
           <FullscreenOutlined class="icon" @click="toggle" v-if="!isFullscreen"/>
           <FullscreenExitOutlined
+            v-else
+            @click="toggle"
             style="fontsize: 18px"
             class="icon"
-            v-else
           ></FullscreenExitOutlined>
           <img
             src="../assets/images/avatar.png"
