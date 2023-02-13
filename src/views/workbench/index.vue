@@ -10,9 +10,50 @@ const openNotificationWithIcon = (type) => {
 </script>
 
 <template>
-  <div>
-    <a-card title="按钮 Button" style="width: 100%">
-      <a-button @click="() => openNotificationWithIcon('success')"
+  <div style="background-color: #fff; padding: 20px">
+    <a-row :gutter="16">
+      <a-col :span="10">
+        <a-card>
+          <p style="font-size: 18px">按钮 Button</p>
+          <a-button type="primary" class="btn">Primary</a-button>
+          <a-button class="btn">Default</a-button>
+          <a-button type="dashed" class="btn">Dashed</a-button>
+          <a-button danger class="btn">Danger</a-button>
+          <a-button type="link" class="btn">Link</a-button>
+        </a-card>
+      </a-col>
+      <a-col :span="10">
+        <a-card>
+          <p style="font-size: 18px">通知 Notification</p>
+          <a-button
+            type="primary"
+            class="btn"
+            @click="() => openNotificationWithIcon('success')"
+            >Success</a-button
+          >
+          <a-button class="btn" @click="() => openNotificationWithIcon('info')"
+            >Info</a-button
+          >
+          <a-button
+            class="btn"
+            @click="() => openNotificationWithIcon('warning')"
+            >Warning</a-button
+          >
+          <a-button
+            danger
+            class="btn"
+            @click="() => openNotificationWithIcon('error')"
+            >Error</a-button
+          >
+        </a-card>
+      </a-col>
+    </a-row>
+  </div>
+  <!-- <div class="card">
+    <a-card title="按钮 Button" style="border-radius: 12px">
+      <a-button
+        type="primary"
+        @click="() => openNotificationWithIcon('success')"
         >Success</a-button
       >
       <a-button @click="() => openNotificationWithIcon('info')">Info</a-button>
@@ -24,6 +65,17 @@ const openNotificationWithIcon = (type) => {
       >
     </a-card>
   </div>
+  <div class="card">
+    <a-card title="Card title" :bordered="false" style="border-radius: 12px">
+      <p>Card content</p>
+      <p>Card content</p>
+      <p>Card content</p>
+    </a-card>
+  </div> -->
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn {
+  margin-right: 10px;
+}
+</style>
