@@ -52,29 +52,4 @@ const menuClick = (path) => {
   </a-sub-menu>
 </template>
 
-<!-- <template>
-  如果存在子路由
-  <template v-if="route.children">
-    <a-sub-menu @click="menuClick(route.path)">
-      <template #title>
-        eslint-disable-next-line prettier/prettier
-        <icon-font :type="route.meta.type" style="fontsize: 18px" />
-        <span>{{ route.meta.title }}</span></template
-      >
-      <template v-for="children of route.children" :key="children.path">
-        递归
-        <SubMenu :route="children" />
-      </template>
-    </a-sub-menu>
-  </template>
-  如果不存在子路由
-  <template v-else>
-    <a-menu-item :key="route.path" @click="menuClick(route.path)">
-      <icon-font :type="route.meta.type" style="fontsize: 18px" />
-
-      <span>{{ route.meta.title }}</span>
-    </a-menu-item>
-  </template>
-</template> -->
-
 <style lang="scss" scoped></style>

@@ -12,16 +12,16 @@ import { ref } from "vue";
 import LocalCache from "@/utils/storage";
 import { useRouter } from "vue-router";
 import { useFullscreen } from "@vueuse/core";
-import { useUserStore } from "@/stores";
+import { useUserStore, useAppStore } from "@/stores";
 import AppFooter from "@/components/common/AppFooter.vue";
-import SideMenu from "./components/sideMenu/SideMenu.vue";
+import SideBar from "./components/sideBar/index.vue";
 import { Modal } from "ant-design-vue";
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/c/font_3873364_4qdcufrvcx2.js",
 });
 
 const { isFullscreen, toggle } = useFullscreen();
-const collapsed = ref(false);
+// const collapsed = ref(false);
 
 const router = useRouter();
 
@@ -31,10 +31,6 @@ const loginInfo = ref({
   remember: false,
 });
 
-const toggleCollapsed = () => {
-  collapsed.value = !collapsed.value;
-};
-
 const initValue = () => {
   const localLoginInfo = LocalCache.get("loginInfo");
   if (localLoginInfo) {
@@ -42,8 +38,6 @@ const initValue = () => {
     loginInfo.value.password = localLoginInfo.password || "";
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
-  // console.log("1111");
-  // console.log(menuRoutes);
 };
 
 // // 退出登录
@@ -70,12 +64,14 @@ initValue();
 // 使用pinia获得持久化的用户信息
 const userStore = useUserStore();
 userStore.getUserInfo();
+
+const appStore = useAppStore();
 </script>
 
 <template>
   <a-layout style="min-height: 100vh">
     <a-layout-sider
-      v-model:collapsed="collapsed"
+      v-model:collapsed="appStore.collapsed"
       :trigger="null"
       collapsible
       style="
@@ -85,12 +81,7 @@ userStore.getUserInfo();
       "
       width="240px"
     >
-      <div class="logo">
-        <img class="image" src="@/assets/svg/logo.svg" alt="image" />
-        <span class="title" v-show="!collapsed">Vue Admin AntdV</span>
-      </div>
-
-      <SideMenu />
+      <SideBar />
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0 1px" class="header">
@@ -98,9 +89,9 @@ userStore.getUserInfo();
           <a-button
             type="primary"
             style="margin-left: 20px; margin-right: 10px"
-            @click="toggleCollapsed"
+            @click="appStore.switchCollapsed"
           >
-            <MenuUnfoldOutlined v-if="collapsed" />
+            <MenuUnfoldOutlined v-if="appStore.collapsed" />
             <MenuFoldOutlined v-else />
           </a-button>
           <a-breadcrumb style="display: inline-block">
@@ -175,15 +166,6 @@ userStore.getUserInfo();
 .logo {
   height: 42px;
   margin: 16px;
-}
-
-.image {
-  /* display: inline-block; */
-  float: left;
-  height: 100%;
-  margin-right: 5px;
-  margin-left: 7px;
-  line-height: 42px;
 }
 
 .title {
