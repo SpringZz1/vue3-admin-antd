@@ -2,10 +2,16 @@
 import { ref } from "vue";
 import SubMenu from "./SubMenu.vue";
 import { useRouter } from "vue-router";
-import { menuRoutes } from "@/router/index";
+// import { menuRoutes } from "@/router/index";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
 import { rootSubmenuKeys } from "@/api/config.js";
+import { useUserStore, usePermission } from "@/stores";
 
+const userStore = useUserStore();
+const permission = usePermission();
+
+permission.generateRoutes(userStore.userRole);
+console.log(permission.menuRoutes);
 const openKeys = ref([]);
 
 const router = useRouter();
@@ -50,17 +56,22 @@ const menuClick = (path) => {
     :openKeys="openKeys"
     @openChange="onOpenChange"
   >
-    <template v-for="route of menuRoutes.children" :key="route.path">
-      <template v-if="!route.children">
-        <a-menu-item :key="route.path" @click="menuClick(route.path)">
-          <icon-font :type="route.meta.type" style="fontsize: 18px" />
-          <span>{{ route.meta.title }}</span>
+    <template v-for="route of permission.menuRoutes" :key="route.path">
+      <template v-if="route.children.length === 1">
+        <a-menu-item
+          :key="route.children[0].path"
+          @click="menuClick(route.children[0].path)"
+        >
+          <icon-font
+            :type="route.children[0].meta.type"
+            style="fontsize: 18px"
+          />
+          <span>{{ route.children[0].meta.title }}</span>
         </a-menu-item>
       </template>
       <template v-else>
         <SubMenu :route="route" :key="route.path" />
       </template>
-      <!-- <SubMenu :route="route" /> -->
     </template>
   </a-menu>
 </template>
