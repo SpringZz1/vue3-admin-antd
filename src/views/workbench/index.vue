@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "@/stores";
+import { useUserStore } from "@/store";
 const userStore = useUserStore();
 </script>
 
@@ -15,9 +15,6 @@ const userStore = useUserStore();
       </div>
     </div>
   </a-card>
-  <template v-if="true">
-    <div>yes</div>
-  </template>
 </template>
 
 <style lang="scss" scoped>
