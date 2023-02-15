@@ -2,7 +2,7 @@
 import { RouterView } from "vue-router";
 import { ref } from "vue";
 import LocalCache from "@/utils/storage";
-import { useUserStore, useAppStore } from "@/stores";
+import { useUserStore, useAppStore } from "@/store";
 import AppFooter from "@/components/common/AppFooter.vue";
 import SideBar from "./components/sideBar/index.vue";
 import Header from "./components/header/index.vue";
@@ -23,7 +23,6 @@ const initValue = () => {
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
 };
-
 
 initValue();
 // 使用pinia获得持久化的用户信息

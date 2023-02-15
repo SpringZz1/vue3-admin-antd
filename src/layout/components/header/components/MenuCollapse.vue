@@ -1,6 +1,6 @@
 <script setup>
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons-vue";
-import { useAppStore } from "@/stores";
+import { useAppStore } from "@/store";
 const appStore = useAppStore();
 </script>
 
