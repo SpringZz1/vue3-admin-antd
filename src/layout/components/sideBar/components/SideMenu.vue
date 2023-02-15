@@ -1,18 +1,21 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import SubMenu from "./SubMenu.vue";
 import { useRouter } from "vue-router";
 // import { menuRoutes } from "@/router/index";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
 import { rootSubmenuKeys } from "@/api/config.js";
-import { useUserStore, usePermission } from "@/stores";
+import { useUserStore, usePermissionStore } from "@/store";
 
 const userStore = useUserStore();
-const permission = usePermission();
+const permission = usePermissionStore();
 
-permission.generateRoutes(userStore.userRole);
-console.log(permission.menuRoutes);
 const openKeys = ref([]);
+
+const menuRoutes = computed(() => {
+  permission.generateRoutes(userStore.userRole);
+  return permission.menuRoutes;
+});
 
 const router = useRouter();
 
@@ -21,7 +24,7 @@ const IconFont = createFromIconfontCN({
 });
 
 const onOpenChange = (keys) => {
-  console.log(keys);
+  // console.log(keys);
   // 当菜单被展开时触发, 点击已经展开的数组时传入的是空数组, 点击为展开的菜单时传入的是[当前菜单的key, 点击的菜单key]
   const latestOpenKey = keys.find((key) => openKeys.value.indexOf(key) === -1);
   if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
@@ -56,7 +59,7 @@ const menuClick = (path) => {
     :openKeys="openKeys"
     @openChange="onOpenChange"
   >
-    <template v-for="route of permission.menuRoutes" :key="route.path">
+    <template v-for="route of menuRoutes" :key="route.path">
       <template v-if="route.children.length === 1">
         <a-menu-item
           :key="route.children[0].path"
