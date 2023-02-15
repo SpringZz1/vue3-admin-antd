@@ -52,8 +52,7 @@ import LocalCache from "@/utils/storage";
 import LoginCheck from "@/utils/loginCheck";
 import TokenCache from "@/utils/token";
 import api from "./api";
-// import { useUserStore } from "@/stores";
-// import { menuRoutes } from "../../router";
+import { addDynamicRoutes } from "@/router";
 import AppFooter from "@/components/common/AppFooter.vue";
 
 const router = useRouter();
@@ -75,16 +74,13 @@ const initLoginInfo = () => {
 
 // 生命周期时登录信息初始化
 initLoginInfo();
-// TODO: 测试pinia, 后续需要删除
-// const userStore = useUserStore();
-// console.log(userStore.getUserInfo());
 
-const loginHandle = () => {
+async function loginHandle() {
   // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
   // 解构信息
   const { username, password, remember } = loginInfo.value;
   // console.log();
-  api.login({ username, password: password.toString() }).then((res) => {
+  api.login({ username, password: password.toString() }).then(async (res) => {
     // console.log(res);
     // 如果没输入身份信息
     if (!LoginCheck.check(username, password)) {
@@ -103,6 +99,7 @@ const loginHandle = () => {
         } else {
           LocalCache.remove("loginInfo");
         }
+        await addDynamicRoutes();
         router.replace("/workbench");
       } else {
         message.error("账号或密码错误");
