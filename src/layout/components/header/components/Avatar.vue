@@ -4,7 +4,7 @@ import { ExportOutlined } from "@ant-design/icons-vue";
 import { Modal } from "ant-design-vue";
 import { useRouter } from "vue-router";
 import { removeToken } from "@/utils";
-
+import { message } from "ant-design-vue";
 const userStore = useUserStore();
 const router = useRouter();
 // // 退出登录
@@ -19,6 +19,7 @@ const logout = () => {
       console.log("OK");
       // 清除token
       removeToken();
+      message.success("退出登录成功");
       router.replace("/login");
     },
     onCancel() {
