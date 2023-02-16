@@ -3,8 +3,7 @@ import { ref, h } from "vue";
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import LocalCache from "@/utils/storage";
-import LoginCheck from "@/utils/loginCheck";
-import TokenCache from "@/utils/token";
+import { setToken } from "@/utils";
 import api from "./api";
 import { addDynamicRoutes } from "@/router";
 import { LoadingOutlined } from "@ant-design/icons-vue";
@@ -27,14 +26,14 @@ const indicator = h(LoadingOutlined, {
   },
   spin: true,
 });
-const initLoginInfo = () => {
+async function initLoginInfo() {
   const localLoginInfo = LocalCache.get("loginInfo");
   if (localLoginInfo) {
     loginInfo.value.username = localLoginInfo.username || "";
     loginInfo.value.password = localLoginInfo.password || "";
     loginInfo.value.remember = localLoginInfo.remember || false;
   }
-};
+}
 
 // 生命周期时登录信息初始化
 initLoginInfo();
@@ -42,33 +41,32 @@ initLoginInfo();
 async function loginHandle() {
   // 解构信息
   const { username, password, remember } = loginInfo.value;
-  // console.log();
-  api.login({ username, password: password.toString() }).then(async (res) => {
-    // console.log(res);
-    // 如果没输入身份信息
-    if (!LoginCheck.check(username, password)) {
-      message.error("请输入账号和密码!");
-    } else {
-      // 如果身份信息输入正确
-      if (res.data.code === 0) {
-        message.success("登录成功");
-        // mock模拟token数据并保存在cookie中
-        const token = res.data.data;
-        // CookiesCache.set("token", token);
-        TokenCache.set("token", token);
-        // 如果"记住我"按下, 保存信息到本地
-        if (remember) {
-          LocalCache.set("loginInfo", loginInfo);
-        } else {
-          LocalCache.remove("loginInfo");
-        }
-        await addDynamicRoutes();
-        router.replace("/workbench");
+  if (!username || !password) {
+    message.error("请输入账号和密码!");
+    return;
+  }
+  try {
+    const res = await api.login({ username, password: password.toString() });
+    // 如果验证成功
+    if (res.data.code === 0) {
+      message.success("登录成功");
+      // 获得token
+      const token = res.data.data;
+      setToken(token);
+      // 如果按下"记住我", 则保存信息到本地
+      if (remember) {
+        LocalCache.set("loginInfo", loginInfo);
       } else {
-        message.error("账号或密码错误");
+        LocalCache.remove("loginInfo");
       }
+      await addDynamicRoutes();
+      router.replace("/");
+    } else {
+      message.error("账号或密码错误");
     }
-  });
+  } catch (e) {
+    console.log(e);
+  }
 }
 </script>
 
