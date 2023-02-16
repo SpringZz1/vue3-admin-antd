@@ -1,3 +1,77 @@
+<script setup>
+import { ref, h } from "vue";
+import { useRouter } from "vue-router";
+import { message } from "ant-design-vue";
+import LocalCache from "@/utils/storage";
+import LoginCheck from "@/utils/loginCheck";
+import TokenCache from "@/utils/token";
+import api from "./api";
+import { addDynamicRoutes } from "@/router";
+import { LoadingOutlined } from "@ant-design/icons-vue";
+import { useAppStore } from "@/store/modules/app";
+import AppFooter from "@/components/common/AppFooter.vue";
+
+const router = useRouter();
+
+const appStore = useAppStore();
+
+const loginInfo = ref({
+  username: "",
+  password: "",
+  remember: false,
+});
+
+const indicator = h(LoadingOutlined, {
+  style: {
+    fontSize: "18px",
+  },
+  spin: true,
+});
+const initLoginInfo = () => {
+  const localLoginInfo = LocalCache.get("loginInfo");
+  if (localLoginInfo) {
+    loginInfo.value.username = localLoginInfo.username || "";
+    loginInfo.value.password = localLoginInfo.password || "";
+    loginInfo.value.remember = localLoginInfo.remember || false;
+  }
+};
+
+// 生命周期时登录信息初始化
+initLoginInfo();
+
+async function loginHandle() {
+  // 解构信息
+  const { username, password, remember } = loginInfo.value;
+  // console.log();
+  api.login({ username, password: password.toString() }).then(async (res) => {
+    // console.log(res);
+    // 如果没输入身份信息
+    if (!LoginCheck.check(username, password)) {
+      message.error("请输入账号和密码!");
+    } else {
+      // 如果身份信息输入正确
+      if (res.data.code === 0) {
+        message.success("登录成功");
+        // mock模拟token数据并保存在cookie中
+        const token = res.data.data;
+        // CookiesCache.set("token", token);
+        TokenCache.set("token", token);
+        // 如果"记住我"按下, 保存信息到本地
+        if (remember) {
+          LocalCache.set("loginInfo", loginInfo);
+        } else {
+          LocalCache.remove("loginInfo");
+        }
+        await addDynamicRoutes();
+        router.replace("/workbench");
+      } else {
+        message.error("账号或密码错误");
+      }
+    }
+  });
+}
+</script>
+
 <template>
   <div class="container">
     <div class="login-container">
@@ -34,8 +108,11 @@
           <a-checkbox v-model:checked="loginInfo.remember">记住我</a-checkbox>
         </div>
         <div>
-          <a-button type="primary" class="button" @click="loginHandle"
-            >登录</a-button
+          <a-button type="primary" class="button" @click="loginHandle">
+            <a-spin
+              :indicator="indicator"
+              v-if="appStore.loading"
+            />登录</a-button
           >
         </div>
       </div>
@@ -43,71 +120,6 @@
     <AppFooter></AppFooter>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { message } from "ant-design-vue";
-import LocalCache from "@/utils/storage";
-import LoginCheck from "@/utils/loginCheck";
-import TokenCache from "@/utils/token";
-import api from "./api";
-import { addDynamicRoutes } from "@/router";
-import AppFooter from "@/components/common/AppFooter.vue";
-
-const router = useRouter();
-
-const loginInfo = ref({
-  username: "",
-  password: "",
-  remember: false,
-});
-
-const initLoginInfo = () => {
-  const localLoginInfo = LocalCache.get("loginInfo");
-  if (localLoginInfo) {
-    loginInfo.value.username = localLoginInfo.username || "";
-    loginInfo.value.password = localLoginInfo.password || "";
-    loginInfo.value.remember = localLoginInfo.remember || false;
-  }
-};
-
-// 生命周期时登录信息初始化
-initLoginInfo();
-
-async function loginHandle() {
-  // TODO: 这里暂时只提供跳转功能，后续添加身份验证功能
-  // 解构信息
-  const { username, password, remember } = loginInfo.value;
-  // console.log();
-  api.login({ username, password: password.toString() }).then(async (res) => {
-    // console.log(res);
-    // 如果没输入身份信息
-    if (!LoginCheck.check(username, password)) {
-      message.error("请输入账号和密码!");
-    } else {
-      // 如果身份信息输入正确
-      if (res.data.code === 0) {
-        message.success("登录成功");
-        // mock模拟token数据并保存在cookie中
-        const token = res.data.data;
-        // CookiesCache.set("token", token);
-        TokenCache.set("token", token);
-        // 如果"记住我"按下, 保存信息到本地
-        if (remember) {
-          LocalCache.set("loginInfo", loginInfo);
-        } else {
-          LocalCache.remove("loginInfo");
-        }
-        await addDynamicRoutes();
-        router.replace("/workbench");
-      } else {
-        message.error("账号或密码错误");
-      }
-    }
-  });
-};
-</script>
 
 <style lang="scss" scoped>
 .container {
