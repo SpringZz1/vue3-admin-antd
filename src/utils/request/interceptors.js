@@ -1,7 +1,11 @@
 import TokenCache from "../token/index";
+import { useAppStore } from "@/store/modules/app";
 
 // request成功
 export function reqResolve(config) {
+  const appStore = useAppStore();
+  // 发送请求打开加载动画
+  appStore.setLoading(true);
   // 处理不需要token的请求
   if (config.noNeedToken) {
     return config;
@@ -25,6 +29,9 @@ export function reqReject(error) {
 
 // response成功
 export function resResolve(config) {
+  const appStore = useAppStore();
+  // 请求完成关闭加载动画
+  appStore.setLoading(false);
   // console.log("response相应拦截器");
   return Promise.resolve(config);
 }
