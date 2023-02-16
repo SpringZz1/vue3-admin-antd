@@ -4,7 +4,7 @@ import { createFromIconfontCN } from "@ant-design/icons-vue";
 const router = useRouter();
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/c/font_3873364_4qdcufrvcx2.js",
+  scriptUrl: "//at.alicdn.com/t/c/font_3873364_npgb2ezjfuk.js",
 });
 
 // 解构父组件传来的menuRoutes
@@ -35,13 +35,13 @@ const menuClick = (path) => {
 <template>
   <a-sub-menu :key="route.path">
     <template #title>
-      <icon-font :type="route.meta.type" style="fontsize: 18px" />
+      <icon-font :type="route.meta.type" />
       <span>{{ route.meta.title }}</span></template
     >
     <template v-for="item in route.children" :key="item.path">
       <template v-if="!item.children">
         <a-menu-item :key="item.path" @click="menuClick(item.path)">
-          <icon-font :type="item.meta.type" style="fontsize: 18px" />
+          <icon-font :type="item.meta.type" />
           <span>{{ item.meta.title }}</span>
         </a-menu-item>
       </template>
