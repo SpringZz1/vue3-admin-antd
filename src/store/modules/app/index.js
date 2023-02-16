@@ -5,6 +5,8 @@ export const useAppStore = defineStore("app", {
     return {
       // 控制菜单缩进
       collapsed: false,
+      // 控制加载动画
+      loading: false,
     };
   },
   actions: {
@@ -13,6 +15,9 @@ export const useAppStore = defineStore("app", {
     },
     setCollapsed(collapsed) {
       this.collapsed = collapsed;
+    },
+    setLoading(state = false) {
+      this.loading = state;
     },
   },
 });
