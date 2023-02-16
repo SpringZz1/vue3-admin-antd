@@ -65,10 +65,7 @@ const menuClick = (path) => {
           :key="route.children[0].path"
           @click="menuClick(route.children[0].path)"
         >
-          <icon-font
-            :type="route.children[0].meta.type"
-            style="fontsize: 18px"
-          />
+          <icon-font :type="route.children[0].meta.type" />
           <span>{{ route.children[0].meta.title }}</span>
         </a-menu-item>
       </template>
