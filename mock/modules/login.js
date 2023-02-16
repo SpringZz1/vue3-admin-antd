@@ -7,7 +7,11 @@ export default [
     url: "/api/login",
     method: "post",
     response: ({ body }) => {
-      if (["admin", "guest"].includes(body.username)) {
+      // 账号和密码验证
+      if (
+        ["admin", "guest"].includes(body.username) &&
+        body.password === "123456"
+      ) {
         return {
           code: 0,
           message: "验证成功",
