@@ -1,8 +1,3 @@
-// import { createRouter, createWebHistory } from "vue-router";
-import Login from "@/views/login/index.vue";
-// import Layout from "../layout/index.vue";
-// import tokenCache from "@/utils/token";
-// import { useUserStore, usePermission } from "@/stores";
 const Layout = () => import("@/layout/index.vue");
 
 export const basicRoutes = [
@@ -10,7 +5,7 @@ export const basicRoutes = [
   {
     path: "/login",
     name: "login",
-    component: Login,
+    component: () => import("@/views/login/index.vue"),
     isHidden: true,
     meta: {
       title: "登录",
@@ -65,13 +60,25 @@ export const basicRoutes = [
   },
   // 404页面
   {
+    path: "/404",
+    name: "404",
+    component: () => import("@/views/error-page/index.vue"),
+    isHidden: true,
+  },
+];
+
+// 动态路由, 需要用户具有一定的身份才可以访问到
+export const asyncRoutes = [
+  // 菜单内显示的404页面
+  {
     path: "/error-page",
     name: "ErrorPage",
     component: Layout,
     redirect: "/error-page/404",
     meta: {
-      type: "icon-icon-test",
-      title: "404!",
+      type: "icon-gantanhaozhong",
+      title: "错误页",
+      roles: ["admin", "guest"],
     },
     children: [
       {
@@ -85,10 +92,6 @@ export const basicRoutes = [
       },
     ],
   },
-];
-
-// 动态路由, 需要用户具有一定的身份才可以访问到
-export const asyncRoutes = [
   // 多级菜单
   {
     path: "/multimenu",
