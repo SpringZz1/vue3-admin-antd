@@ -3,7 +3,7 @@ import { useUserStore } from "@/store";
 import { ExportOutlined } from "@ant-design/icons-vue";
 import { Modal } from "ant-design-vue";
 import { useRouter } from "vue-router";
-import tokenCache from "@/utils/token";
+import { removeToken } from "@/utils";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -18,7 +18,7 @@ const logout = () => {
     onOk() {
       console.log("OK");
       // 清除token
-      tokenCache.remove("token");
+      removeToken();
       router.replace("/login");
     },
     onCancel() {

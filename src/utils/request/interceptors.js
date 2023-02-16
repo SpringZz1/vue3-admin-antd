@@ -1,4 +1,4 @@
-import TokenCache from "../token/index";
+import { getToken } from "@/utils";
 import { useAppStore } from "@/store/modules/app";
 
 // request成功
@@ -11,7 +11,8 @@ export function reqResolve(config) {
     return config;
   }
 
-  const token = TokenCache.get("token");
+  // const token = TokenCache.get("token");
+  const token = getToken();
   // 如果不存在token, 则需要进行重新登录
   if (!token) {
     return Promise.reject({ code: 401, message: "登录已过期, 请重新登录!" });
