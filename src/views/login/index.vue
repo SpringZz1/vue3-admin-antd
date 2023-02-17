@@ -182,14 +182,14 @@ async function loginHandle() {
     }
   }
 }
-::v-deep .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+:deep .ant-checkbox-wrapper:hover .ant-checkbox-inner,
 .ant-checkbox:hover .ant-checkbox-inner,
 .ant-checkbox-inner:visited,
 .ant-checkbox-input:focus + .ant-checkbox-inner {
   border-color: #316c72;
 }
 
-::v-deep .ant-checkbox-checked .ant-checkbox-inner {
+:deep .ant-checkbox-checked .ant-checkbox-inner {
   background-color: #316c72;
   border-color: #316c72;
 }

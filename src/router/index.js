@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { setupRouterGuard } from "./guard";
 import { basicRoutes, EMPTY_ROUTE, NOT_FOUND_ROUTE } from "./routes";
 import { useUserStore, usePermissionStore } from "@/store";
-import tokenCache from "@/utils/token";
+import { getToken } from "@/utils";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +16,7 @@ export async function setupRouter(app) {
 }
 
 export async function addDynamicRoutes() {
-  const token = tokenCache.get("token");
+  const token = getToken();
   // 如果没有token
   if (!token) {
     return { path: "/login" };
@@ -35,7 +35,6 @@ export async function addDynamicRoutes() {
       router.hasRoute(EMPTY_ROUTE.name) && router.removeRoute(EMPTY_ROUTE.name);
       router.addRoute(NOT_FOUND_ROUTE);
     });
-    console.log(accessRoutes);
   } catch (e) {
     console.log(e);
   }

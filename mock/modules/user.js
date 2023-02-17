@@ -1,4 +1,3 @@
-// import TokenCache from "./src/utils/token";
 import { resolveToken } from "../utils";
 const users = {
   admin: {

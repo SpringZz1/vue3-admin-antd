@@ -1,6 +1,4 @@
 import { defineStore } from "pinia";
-// import TokenCache from "@/utils/token";
-// import { useRouter } from "vue-router";
 import api from "./api";
 
 // const router = useRouter();
