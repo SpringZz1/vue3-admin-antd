@@ -1,0 +1,1 @@
+import{_ as o}from"./_plugin-vue_export-helper-c27b6911.js";import{a0 as t,o as n,Y as r,p as a,F as s,Z as c}from"./runtime-core.esm-bundler-e596b472.js";const _={},i=c("div",null,"a-1",-1);function l(m,d){const e=t("RouterView");return n(),r(s,null,[i,a(e)],64)}const u=o(_,[["render",l]]);export{u as default};
