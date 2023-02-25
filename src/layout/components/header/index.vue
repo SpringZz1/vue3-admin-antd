@@ -9,7 +9,7 @@ import Avatar from "./components/Avatar.vue";
   <div class="header">
     <div>
       <MenuCollapse />
-      <Breadcrumb style="margin-left: 10px"/>
+      <Breadcrumb style="margin-left: 10px" />
     </div>
     <div style="display: flex; align-items: center">
       <FullScreen />
